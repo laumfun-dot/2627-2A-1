@@ -1,95 +1,89 @@
 // ⚠️ 請將下方網址替換為你在 Firebase 申請到的 Realtime Database 網址
 const DB_URL = "https://a-77436-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
-// 初始預設資料（若資料庫為空時自動寫入）
+// 來自 活頁簿1.xlsx 的全班 52 位使用者資料預設集
 const initialUsers = {
-  {Username: "2A01", Password: "25262a01", Permission: "1-user"},
-  {Username: "2A02", Password: "25262a02", Permission: "1-user"},
-  {Username: "2A03", Password: "25262a03", Permission: "1-user"},
-  {Username: "2A04", Password: "25262a04", Permission: "1-user"},
-  {Username: "2A05", Password: "25262a05", Permission: "99-owner"},
-  {Username: "2A06", Password: "25262a06", Permission: "1-user"},
-  {Username: "2A07", Password: "25262a07", Permission: "1-user"},
-  {Username: "2A08", Password: "25262a08", Permission: "1-user"},
-  {Username: "2A09", Password: "25262a09", Permission: "1-user"},
-  {Username: "2A10", Password: "25262a10", Permission: "1-user"},
-  {Username: "2A11", Password: "25262a11", Permission: "1-user"},
-  {Username: "2A12", Password: "25262a12", Permission: "1-user"},
-  {Username: "2A13", Password: "25262a13", Permission: "1-user"},
-  {Username: "2A14", Password: "25262a14", Permission: "1-user"},
-  {Username: "2A15", Password: "25262a15", Permission: "1-user"},
-  {Username: "2A16", Password: "25262a16", Permission: "1-user"},
-  {Username: "2A17", Password: "25262a17", Permission: "70-Monitress"},
-  {Username: "2A18", Password: "25262a18", Permission: "1-user"},
-  {Username: "2A19", Password: "25262a19", Permission: "1-user"},
-  {Username: "2A20", Password: "25262a20", Permission: "1-user"},
-  {Username: "2A21", Password: "25262a21", Permission: "1-user"},
-  {Username: "2A22", Password: "25262a22", Permission: "1-user"},
-  {Username: "2A23", Password: "25262a23", Permission: "1-user"},
-  {Username: "2A24", Password: "25262a24", Permission: "68-Vice ChairPerson of Class Union"},
-  {Username: "2A25", Password: "25262a25", Permission: "1-user"},
-  {Username: "2A26", Password: "25262a26", Permission: "1-user"},
-  {Username: "2A27", Password: "25262a27", Permission: "1-user"},
-  {Username: "2A28", Password: "25262a28", Permission: "69-ChairPerson of Class Union"},
-  {Username: "2A29", Password: "25262a29", Permission: "1-user"},
-  {Username: "2A30", Password: "25262a30", Permission: "1-user"},
-  {Username: "2A31", Password: "25262a31", Permission: "1-user"},
-  {Username: "2A32", Password: "25262a32", Permission: "1-user"},
-  {Username: "2A33", Password: "25262a33", Permission: "1-user"},
-  {Username: "2A34", Password: "25262a34", Permission: "1-user"},
-  {Username: "2A35", Password: "25262a35", Permission: "1-user"},
-  {Username: "CKK", Password: "ckk@2a", Permission: "2-Teacher"},
-  {Username: "CTK", Password: "ctk@2a", Permission: "2-Teacher"},
-  {Username: "JOR", Password: "jor@2a", Permission: "2-Teacher"},
-  {Username: "LKK", Password: "lkk@2a", Permission: "2-Teacher"},
-  {Username: "LNF", Password: "lnf@2a", Permission: "2-Teacher"},
-  {Username: "LOK", Password: "lok@2a", Permission: "2-Teacher"},
-  {Username: "LYT", Password: "lyt@2a", Permission: "2-Teacher"},
-  {Username: "MKY", Password: "mky@2a", Permission: "2-Teacher"},
-  {Username: "NSH", Password: "nsh@2a", Permission: "2-Teacher"},
-  {Username: "RAY", Password: "ray@2a", Permission: "2-Teacher"},
-  {Username: "SYI", Password: "syi@2a", Permission: "2-Teacher"},
-  {Username: "SYW", Password: "syw@2a", Permission: "2-Teacher"},
-  {Username: "TKH", Password: "tkh@2a", Permission: "2-Teacher"},
-  {Username: "TMY", Password: "tmy@2a", Permission: "2-Teacher"},
-  {Username: "TTC", Password: "ttc@2a", Permission: "2-Teacher"},
-  {Username: "TTH", Password: "tth@2a", Permission: "2-Teacher"},
-  {Username: "WHY", Password: "why@2a", Permission: "2-Teacher"}
-];
-  // 提示：正式使用時可將全部 52 位帳號完整寫入
+  "2A01": { Password: "25262a01", Permission: "1-user" },
+  "2A02": { Password: "25262a02", Permission: "1-user" },
+  "2A03": { Password: "25262a03", Permission: "1-user" },
+  "2A04": { Password: "25262a04", Permission: "1-user" },
+  "2A05": { Password: "25262a05", Permission: "99-owner" },
+  "2A06": { Password: "25262a06", Permission: "1-user" },
+  "2A07": { Password: "25262a07", Permission: "1-user" },
+  "2A08": { Password: "25262a08", Permission: "1-user" },
+  "2A09": { Password: "25262a09", Permission: "1-user" },
+  "2A10": { Password: "25262a10", Permission: "1-user" },
+  "2A11": { Password: "25262a11", Permission: "1-user" },
+  "2A12": { Password: "25262a12", Permission: "1-user" },
+  "2A13": { Password: "25262a13", Permission: "1-user" },
+  "2A14": { Password: "25262a14", Permission: "1-user" },
+  "2A15": { Password: "25262a15", Permission: "1-user" },
+  "2A16": { Password: "25262a16", Permission: "1-user" },
+  "2A17": { Password: "25262a17", Permission: "70-Monitress" },
+  "2A18": { Password: "25262a18", Permission: "1-user" },
+  "2A19": { Password: "25262a19", Permission: "1-user" },
+  "2A20": { Password: "25262a20", Permission: "1-user" },
+  "2A21": { Password: "25262a21", Permission: "1-user" },
+  "2A22": { Password: "25262a22", Permission: "1-user" },
+  "2A23": { Password: "25262a23", Permission: "1-user" },
+  "2A24": { Password: "25262a24", Permission: "68-Vice ChairPerson of Class Union" },
+  "2A25": { Password: "25262a25", Permission: "1-user" },
+  "2A26": { Password: "25262a26", Permission: "1-user" },
+  "2A27": { Password: "25262a27", Permission: "1-user" },
+  "2A28": { Password: "25262a28", Permission: "69-ChairPerson of Class Union" },
+  "2A29": { Password: "25262a29", Permission: "1-user" },
+  "2A30": { Password: "25262a30", Permission: "1-user" },
+  "2A31": { Password: "25262a31", Permission: "1-user" },
+  "2A32": { Password: "25262a32", Permission: "1-user" },
+  "2A33": { Password: "25262a33", Permission: "1-user" },
+  "2A34": { Password: "25262a34", Permission: "1-user" },
+  "2A35": { Password: "25262a35", Permission: "1-user" },
+  "CKK": { Password: "ckk@2a", Permission: "2-Teacher" },
+  "CTK": { Password: "ctk@2a", Permission: "2-Teacher" },
+  "JOR": { Password: "jor@2a", Permission: "2-Teacher" },
+  "LKK": { Password: "lkk@2a", Permission: "2-Teacher" },
+  "LNF": { Password: "lnf@2a", Permission: "2-Teacher" },
+  "LOK": { Password: "lok@2a", Permission: "2-Teacher" },
+  "LYT": { Password: "lyt@2a", Permission: "2-Teacher" },
+  "MKY": { Password: "mky@2a", Permission: "2-Teacher" },
+  "NSH": { Password: "nsh@2a", Permission: "2-Teacher" },
+  "RAY": { Password: "ray@2a", Permission: "2-Teacher" },
+  "SYI": { Password: "syi@2a", Permission: "2-Teacher" },
+  "SYW": { Password: "syw@2a", Permission: "2-Teacher" },
+  "TKH": { Password: "tkh@2a", Permission: "2-Teacher" },
+  "TMY": { Password: "tmy@2a", Permission: "2-Teacher" },
+  "TTC": { Password: "ttc@2a", Permission: "2-Teacher" },
+  "TTH": { Password: "tth@2a", Permission: "2-Teacher" },
+  "WHY": { Password: "why@2a", Permission: "2-Teacher" }
 };
 
 let currentUser = null;
 
-// 從雲端讀取所有使用者資料
-async function fetchUsersFromCloud() {
+// 從 Firebase 雲端獲取帳號資料
+async function fetchUsers() {
   try {
     let res = await fetch(`${DB_URL}/users.json`);
     let data = await res.json();
     if (!data) {
-      // 資料庫初始為空，自動寫入預設資料
-      await fetch(`${DB_URL}/users.json`, {
-        method: 'PUT',
-        body: JSON.stringify(initialUsers)
-      });
+      await fetch(`${DB_URL}/users.json`, { method: 'PUT', body: JSON.stringify(initialUsers) });
       return initialUsers;
     }
     return data;
   } catch (e) {
-    console.error("雲端連線失敗:", e);
+    console.error("Firebase 連線失敗:", e);
     return null;
   }
 }
 
-// 登入處理 (非同步雲端驗證)
+// 登入驗證
 async function handleLogin() {
   const uInput = document.getElementById('login-username').value.trim().toUpperCase();
   const pInput = document.getElementById('login-password').value.trim();
 
   if (!uInput || !pInput) return alert("請輸入帳號與密碼！");
 
-  const users = await fetchUsersFromCloud();
-  if (!users) return alert("無法連線至雲端資料庫，請檢查網路連線！");
+  const users = await fetchUsers();
+  if (!users) return alert("連線失敗，請檢查網路或 Firebase 網址！");
 
   const user = users[uInput];
 
@@ -104,28 +98,32 @@ async function handleLogin() {
     const isOwner = currentUser.Permission.includes('99-owner');
     document.getElementById('admin-tab-btn').classList.toggle('hidden', !isOwner);
     document.getElementById('owner-create-survey').classList.toggle('hidden', !isOwner);
+
+    populateECardReceivers(users);
+    renderSurveys();
+    renderECards();
+    if (isOwner) renderAdminTable(users);
   } else {
     alert("用戶名或密碼不正確！ Invalid Username or Password!");
   }
 }
 
-// 🔑 個人修改密碼（即時同步更新至雲端）
+// 🔑 修改個人密碼（即時寫入 Firebase 雲端）
 async function changeSelfPassword() {
   const newPwd = document.getElementById('self-new-password').value.trim();
   if (!newPwd) return alert("請輸入新密碼！");
 
   try {
-    // 直連 Firebase API 更新該用戶密碼
     await fetch(`${DB_URL}/users/${currentUser.Username}/Password.json`, {
       method: 'PUT',
       body: JSON.stringify(newPwd)
     });
     
     currentUser.Password = newPwd;
-    alert("密碼已成功更新至雲端！現在可以在任何裝置使用新密碼登入。");
+    alert("密碼已成功同步至雲端！現在在任何裝置均可用新密碼登入。");
     document.getElementById('self-new-password').value = '';
   } catch (e) {
-    alert("密碼更新失敗，請再試一次。");
+    alert("更新失敗，請重試。");
   }
 }
 
@@ -140,4 +138,155 @@ function switchTab(tabId) {
   document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
   document.getElementById(tabId).classList.remove('hidden');
   event.target.classList.add('active');
+}
+
+// 📊 問卷調查雲端模組
+async function renderSurveys() {
+  const container = document.getElementById('survey-list');
+  try {
+    let res = await fetch(`${DB_URL}/surveys.json`);
+    let surveysObj = await res.json() || {};
+    const surveys = Object.keys(surveysObj).map(key => ({ id: key, ...surveysObj[key] }));
+    
+    container.innerHTML = surveys.length ? '' : '<p style="color:#777;">目前沒有進行中的問卷。</p>';
+
+    surveys.forEach(s => {
+      const votedUsers = s.votedUsers || [];
+      const totalVotes = votedUsers.length;
+      const hasVoted = votedUsers.includes(currentUser.Username);
+
+      let optionsHTML = '';
+      s.options.forEach((opt, idx) => {
+        const count = (s.votes && s.votes[idx]) ? s.votes[idx] : 0;
+        const percent = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
+        optionsHTML += `
+          <div style="margin: 10px 0;">
+            <div style="display:flex; justify-content:space-between;">
+              <span>${opt}</span>
+              <small>${count} 票 (${percent}%)</small>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+            ${!hasVoted ? `<button onclick="voteSurvey('${s.id}', ${idx})" style="padding:4px; margin-top:4px;">投票 Vote</button>` : ''}
+          </div>
+        `;
+      });
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.background = '#fafafa';
+      card.innerHTML = `<h4>📌 ${s.title}</h4>${optionsHTML}<small style="color:#666;">總投票數: ${totalVotes} ${hasVoted ? '(已投票)' : ''}</small>`;
+      container.appendChild(card);
+    });
+  } catch (e) {
+    container.innerHTML = '<p>讀取問卷失敗。</p>';
+  }
+}
+
+async function createSurvey() {
+  const title = document.getElementById('survey-title').value.trim();
+  const optionsRaw = document.getElementById('survey-options').value.trim();
+  if (!title || !optionsRaw) return alert("請填寫完整問卷資料！");
+
+  const options = optionsRaw.split(',').map(o => o.trim()).filter(o => o);
+  const newSurvey = { title, options, votes: {}, votedUsers: [] };
+
+  await fetch(`${DB_URL}/surveys.json`, { method: 'POST', body: JSON.stringify(newSurvey) });
+  document.getElementById('survey-title').value = '';
+  document.getElementById('survey-options').value = '';
+  renderSurveys();
+}
+
+async function voteSurvey(surveyId, optionIndex) {
+  let res = await fetch(`${DB_URL}/surveys/${surveyId}.json`);
+  let survey = await res.json();
+  if (!survey) return;
+
+  let votedUsers = survey.votedUsers || [];
+  if (votedUsers.includes(currentUser.Username)) return alert("你已經投過票了！");
+
+  votedUsers.push(currentUser.Username);
+  let count = (survey.votes && survey.votes[optionIndex]) ? survey.votes[optionIndex] + 1 : 1;
+
+  await fetch(`${DB_URL}/surveys/${surveyId}/votes/${optionIndex}.json`, { method: 'PUT', body: JSON.stringify(count) });
+  await fetch(`${DB_URL}/surveys/${surveyId}/votedUsers.json`, { method: 'PUT', body: JSON.stringify(votedUsers) });
+
+  renderSurveys();
+}
+
+// 💌 心意卡雲端模組
+function populateECardReceivers(users) {
+  const select = document.getElementById('ecard-receiver');
+  select.innerHTML = '<option value="">選擇接收對象 Select Receiver...</option>';
+  Object.keys(users).forEach(uKey => {
+    if (uKey !== currentUser.Username) {
+      select.innerHTML += `<option value="${uKey}">${uKey} (${users[uKey].Permission})</option>`;
+    }
+  });
+}
+
+async function sendECard() {
+  const receiver = document.getElementById('ecard-receiver').value;
+  const message = document.getElementById('ecard-message').value.trim();
+  if (!receiver || !message) return alert("請填寫完整接收對象與訊息！");
+
+  const card = { sender: currentUser.Username, receiver, message, date: new Date().toLocaleDateString() };
+  await fetch(`${DB_URL}/ecards.json`, { method: 'POST', body: JSON.stringify(card) });
+
+  document.getElementById('ecard-message').value = '';
+  alert("心意卡已傳送！");
+  renderECards();
+}
+
+async function renderECards() {
+  const container = document.getElementById('my-ecards-list');
+  try {
+    let res = await fetch(`${DB_URL}/ecards.json`);
+    let cardsObj = await res.json() || {};
+    const myCards = Object.values(cardsObj).filter(c => c.receiver === currentUser.Username);
+
+    container.innerHTML = myCards.length ? '' : '<p style="color:#777;">目前沒有收到心意卡。</p>';
+    myCards.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'ecard-item';
+      card.innerHTML = `<p><strong>來自: ${c.sender}</strong> <small style="float:right; color:#888;">${c.date}</small></p><p style="white-space: pre-line;">${c.message}</p>`;
+      container.appendChild(card);
+    });
+  } catch (e) {
+    container.innerHTML = '<p>讀取心意卡失敗。</p>';
+  }
+}
+
+// 👑 管理員模組
+function renderAdminTable(users) {
+  const tbody = document.getElementById('user-table-body');
+  tbody.innerHTML = '';
+  Object.keys(users).forEach(uKey => {
+    const u = users[uKey];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${uKey}</strong></td>
+      <td><input type="text" value="${u.Permission}" id="perm-${uKey}" style="margin:0; padding:4px;"></td>
+      <td>
+        <input type="text" placeholder="改密碼 Password" id="pwd-${uKey}" style="width:110px; margin:0; padding:4px;">
+        <button onclick="adminSave('${uKey}')" style="width:auto; padding:4px 8px; margin:0;">儲存 Save</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+async function adminSave(uKey) {
+  const newPerm = document.getElementById(`perm-${uKey}`).value.trim();
+  const newPwd = document.getElementById(`pwd-${uKey}`).value.trim();
+
+  if (newPerm) {
+    await fetch(`${DB_URL}/users/${uKey}/Permission.json`, { method: 'PUT', body: JSON.stringify(newPerm) });
+  }
+  if (newPwd) {
+    await fetch(`${DB_URL}/users/${uKey}/Password.json`, { method: 'PUT', body: JSON.stringify(newPwd) });
+  }
+
+  alert(`已更新 ${uKey} 資料！`);
+  const updatedUsers = await fetchUsers();
+  renderAdminTable(updatedUsers);
 }
