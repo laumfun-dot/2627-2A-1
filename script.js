@@ -1,5 +1,8 @@
-// 帳號資料庫（來自 Excel 活頁簿1.xlsx）
-const initialData = [
+// ⚠️ 請將下方網址替換為你在 Firebase 申請到的 Realtime Database 網址
+const DB_URL = "https://a-77436-default-rtdb.asia-southeast1.firebasedatabase.app/";
+
+// 初始預設資料（若資料庫為空時自動寫入）
+const initialUsers = {
   {Username: "2A01", Password: "25262a01", Permission: "1-user"},
   {Username: "2A02", Password: "25262a02", Permission: "1-user"},
   {Username: "2A03", Password: "25262a03", Permission: "1-user"},
@@ -53,207 +56,88 @@ const initialData = [
   {Username: "TTH", Password: "tth@2a", Permission: "2-Teacher"},
   {Username: "WHY", Password: "why@2a", Permission: "2-Teacher"}
 ];
+  // 提示：正式使用時可將全部 52 位帳號完整寫入
+};
 
 let currentUser = null;
 
-function getUsers() {
-  return JSON.parse(localStorage.getItem('2a_users')) || initialData;
+// 從雲端讀取所有使用者資料
+async function fetchUsersFromCloud() {
+  try {
+    let res = await fetch(`${DB_URL}/users.json`);
+    let data = await res.json();
+    if (!data) {
+      // 資料庫初始為空，自動寫入預設資料
+      await fetch(`${DB_URL}/users.json`, {
+        method: 'PUT',
+        body: JSON.stringify(initialUsers)
+      });
+      return initialUsers;
+    }
+    return data;
+  } catch (e) {
+    console.error("雲端連線失敗:", e);
+    return null;
+  }
 }
-function saveUsers(u) { localStorage.setItem('2a_users', JSON.stringify(u)); }
 
-function getSurveys() { return JSON.parse(localStorage.getItem('2a_surveys')) || []; }
-function saveSurveys(s) { localStorage.setItem('2a_surveys', JSON.stringify(s)); }
-
-function getECards() { return JSON.parse(localStorage.getItem('2a_ecards')) || []; }
-function saveECards(c) { localStorage.setItem('2a_ecards', JSON.stringify(c)); }
-
-// 登入 / Login
-function handleLogin() {
-  const uInput = document.getElementById('login-username').value.trim();
+// 登入處理 (非同步雲端驗證)
+async function handleLogin() {
+  const uInput = document.getElementById('login-username').value.trim().toUpperCase();
   const pInput = document.getElementById('login-password').value.trim();
-  const users = getUsers();
-  const user = users.find(u => u.Username.toLowerCase() === uInput.toLowerCase() && u.Password === pInput);
 
-  if (user) {
-    currentUser = user;
+  if (!uInput || !pInput) return alert("請輸入帳號與密碼！");
+
+  const users = await fetchUsersFromCloud();
+  if (!users) return alert("無法連線至雲端資料庫，請檢查網路連線！");
+
+  const user = users[uInput];
+
+  if (user && user.Password === pInput) {
+    currentUser = { Username: uInput, ...user };
+    
     document.getElementById('login-card').classList.add('hidden');
     document.getElementById('main-card').classList.remove('hidden');
-    document.getElementById('current-user-display').innerText = user.Username;
-    document.getElementById('current-role-display').innerText = user.Permission;
+    document.getElementById('current-user-display').innerText = currentUser.Username;
+    document.getElementById('current-role-display').innerText = currentUser.Permission;
 
-    const isOwner = user.Permission.includes('99-owner');
+    const isOwner = currentUser.Permission.includes('99-owner');
     document.getElementById('admin-tab-btn').classList.toggle('hidden', !isOwner);
     document.getElementById('owner-create-survey').classList.toggle('hidden', !isOwner);
-
-    populateECardReceivers();
-    renderSurveys();
-    renderECards();
-    if (isOwner) renderAdminTable();
   } else {
     alert("用戶名或密碼不正確！ Invalid Username or Password!");
   }
 }
 
-// 登出 / Logout
+// 🔑 個人修改密碼（即時同步更新至雲端）
+async function changeSelfPassword() {
+  const newPwd = document.getElementById('self-new-password').value.trim();
+  if (!newPwd) return alert("請輸入新密碼！");
+
+  try {
+    // 直連 Firebase API 更新該用戶密碼
+    await fetch(`${DB_URL}/users/${currentUser.Username}/Password.json`, {
+      method: 'PUT',
+      body: JSON.stringify(newPwd)
+    });
+    
+    currentUser.Password = newPwd;
+    alert("密碼已成功更新至雲端！現在可以在任何裝置使用新密碼登入。");
+    document.getElementById('self-new-password').value = '';
+  } catch (e) {
+    alert("密碼更新失敗，請再試一次。");
+  }
+}
+
 function handleLogout() {
   currentUser = null;
   document.getElementById('login-card').classList.remove('hidden');
   document.getElementById('main-card').classList.add('hidden');
 }
 
-// 切換頁籤 / Switch Tabs
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
   document.getElementById(tabId).classList.remove('hidden');
   event.target.classList.add('active');
-}
-
-// --- 📊 問卷調查模組 / Survey Module ---
-function createSurvey() {
-  const title = document.getElementById('survey-title').value.trim();
-  const optionsRaw = document.getElementById('survey-options').value.trim();
-  if (!title || !optionsRaw) return alert("請輸入完整問卷資料！ Please complete all survey fields!");
-
-  const options = optionsRaw.split(',').map(o => o.trim()).filter(o => o);
-  const surveys = getSurveys();
-  surveys.push({ id: Date.now(), title, options, votes: {}, votedUsers: [] });
-  saveSurveys(surveys);
-
-  document.getElementById('survey-title').value = '';
-  document.getElementById('survey-options').value = '';
-  renderSurveys();
-}
-
-function voteSurvey(surveyId, optionIndex) {
-  let surveys = getSurveys();
-  let survey = surveys.find(s => s.id === surveyId);
-  if (!survey) return;
-
-  if (survey.votedUsers.includes(currentUser.Username)) {
-    return alert("你已經參加過這項投票了！ You have already voted!");
-  }
-
-  survey.votes[optionIndex] = (survey.votes[optionIndex] || 0) + 1;
-  survey.votedUsers.push(currentUser.Username);
-  saveSurveys(surveys);
-  renderSurveys();
-}
-
-function renderSurveys() {
-  const surveys = getSurveys();
-  const container = document.getElementById('survey-list');
-  container.innerHTML = surveys.length ? '' : '<p style="color:#777;">目前沒有進行中的問卷。 No active surveys available.</p>';
-
-  surveys.forEach(s => {
-    const totalVotes = s.votedUsers.length;
-    const hasVoted = s.votedUsers.includes(currentUser.Username);
-
-    let optionsHTML = '';
-    s.options.forEach((opt, idx) => {
-      const count = s.votes[idx] || 0;
-      const percent = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
-      optionsHTML += `
-        <div style="margin: 10px 0;">
-          <div style="display:flex; justify-content:space-between;">
-            <span>${opt}</span>
-            <small>${count} 票 Votes (${percent}%)</small>
-          </div>
-          <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
-          ${!hasVoted ? `<button onclick="voteSurvey(${s.id}, ${idx})" style="padding:4px; margin-top:4px;">投票 Vote</button>` : ''}
-        </div>
-      `;
-    });
-
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.style.background = '#fafafa';
-    card.innerHTML = `<h4>📌 ${s.title}</h4>${optionsHTML}<small style="color:#666;">總投票人數 Total Votes: ${totalVotes} ${hasVoted ? '(已完成投票 You have voted)' : ''}</small>`;
-    container.appendChild(card);
-  });
-}
-
-// --- 💌 電子心意卡模組 / E-Card Module ---
-function populateECardReceivers() {
-  const select = document.getElementById('ecard-receiver');
-  select.innerHTML = '<option value="">選擇接收對象 Select Receiver...</option>';
-  getUsers().forEach(u => {
-    if (u.Username !== currentUser.Username) {
-      select.innerHTML += `<option value="${u.Username}">${u.Username} (${u.Permission})</option>`;
-    }
-  });
-}
-
-function sendECard() {
-  const receiver = document.getElementById('ecard-receiver').value;
-  const message = document.getElementById('ecard-message').value.trim();
-  if (!receiver || !message) return alert("請選擇接收對象並填寫心意字句！ Please select a receiver and write a message!");
-
-  const cards = getECards();
-  cards.push({ id: Date.now(), sender: currentUser.Username, receiver, message, date: new Date().toLocaleDateString() });
-  saveECards(cards);
-
-  document.getElementById('ecard-message').value = '';
-  alert("心意卡已成功送出！ Card sent successfully!");
-  renderECards();
-}
-
-function renderECards() {
-  const cards = getECards();
-  const myCards = cards.filter(c => c.receiver === currentUser.Username);
-  const container = document.getElementById('my-ecards-list');
-  container.innerHTML = myCards.length ? '' : '<p style="color:#777;">目前尚未收到心意卡。 No received cards yet.</p>';
-
-  myCards.forEach(c => {
-    const card = document.createElement('div');
-    card.className = 'ecard-item';
-    card.innerHTML = `<p><strong>來自 From: ${c.sender}</strong> <small style="float:right; color:#888;">${c.date}</small></p><p style="white-space: pre-line;">${c.message}</p>`;
-    container.appendChild(card);
-  });
-}
-
-// --- 🔑 個人設定模組 / Settings Module ---
-function changeSelfPassword() {
-  const newPwd = document.getElementById('self-new-password').value.trim();
-  if (!newPwd) return alert("請輸入新密碼！ Please enter a new password!");
-
-  let users = getUsers();
-  let user = users.find(u => u.Username === currentUser.Username);
-  if (user) {
-    user.Password = newPwd;
-    saveUsers(users);
-    alert("密碼修改成功！ Password updated successfully!");
-    document.getElementById('self-new-password').value = '';
-  }
-}
-
-// --- 👑 Owner 管理員模組 / Admin Module ---
-function renderAdminTable() {
-  const tbody = document.getElementById('user-table-body');
-  tbody.innerHTML = '';
-  getUsers().forEach((u, index) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><strong>${u.Username}</strong></td>
-      <td><input type="text" value="${u.Permission}" id="perm-${index}" style="margin:0; padding:4px;"></td>
-      <td>
-        <input type="text" placeholder="改密碼 Password" id="pwd-${index}" style="width:110px; margin:0; padding:4px;">
-        <button onclick="adminSave(${index})" style="width:auto; padding:4px 8px; margin:0;">儲存 Save</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function adminSave(index) {
-  let users = getUsers();
-  const newPerm = document.getElementById(`perm-${index}`).value.trim();
-  const newPwd = document.getElementById(`pwd-${index}`).value.trim();
-
-  if (newPerm) users[index].Permission = newPerm;
-  if (newPwd) users[index].Password = newPwd;
-
-  saveUsers(users);
-  alert(`已更新 Updated: ${users[index].Username}`);
-  renderAdminTable();
 }
