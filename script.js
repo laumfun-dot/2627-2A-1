@@ -1,62 +1,60 @@
 // ⚠️ Firebase Realtime Database 網址 (已移除結尾斜線以確保連線穩定)
 const DB_URL = "https://a-77436-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
-// 來自 活頁簿1.xlsx 的全班 52 位使用者資料預設集
+// 來自 活頁簿1.xlsx 的最新帳號密碼預設集 (密碼前綴已更新為 2627)
 const initialUsers = {
-  "2A01": { Password: "26272a01", Permission: "1-user" },
-  "2A02": { Password: "26272a02", Permission: "1-user" },
-  "2A03": { Password: "26272a03", Permission: "1-user" },
-  "2A04": { Password: "26272a04", Permission: "1-user" },
-  "2A05": { Password: "26272a05", Permission: "99-owner" },
-  "2A06": { Password: "26272a06", Permission: "1-user" },
-  "2A07": { Password: "26272a07", Permission: "1-user" },
-  "2A08": { Password: "26272a08", Permission: "1-user" },
-  "2A09": { Password: "26272a09", Permission: "1-user" },
-  "2A10": { Password: "26272a10", Permission: "1-user" },
-  "2A11": { Password: "26272a11", Permission: "1-user" },
-  "2A12": { Password: "26272a12", Permission: "1-user" },
-  "2A13": { Password: "26272a13", Permission: "1-user" },
-  "2A14": { Password: "26272a14", Permission: "1-user" },
-  "2A15": { Password: "26272a15", Permission: "1-user" },
-  "2A16": { Password: "26272a16", Permission: "1-user" },
-  "2A17": { Password: "26272a17", Permission: "70-Monitress" },
-  "2A18": { Password: "26272a18", Permission: "1-user" },
-  "2A19": { Password: "26272a19", Permission: "1-user" },
-  "2A20": { Password: "26272a20", Permission: "1-user" },
-  "2A21": { Password: "26272a21", Permission: "1-user" },
-  "2A22": { Password: "26272a22", Permission: "1-user" },
-  "2A23": { Password: "26272a23", Permission: "1-user" },
-  "2A24": { Password: "26272a24", Permission: "68-Vice ChairPerson of Class Union" },
-  "2A25": { Password: "26272a25", Permission: "1-user" },
-  "2A26": { Password: "26272a26", Permission: "1-user" },
-  "2A27": { Password: "26272a27", Permission: "1-user" },
-  "2A28": { Password: "26272a28", Permission: "69-ChairPerson of Class Union" },
-  "2A29": { Password: "26272a29", Permission: "1-user" },
-  "2A30": { Password: "26272a30", Permission: "1-user" },
-  "2A31": { Password: "26272a31", Permission: "1-user" },
-  "2A32": { Password: "26272a32", Permission: "1-user" },
-  "2A33": { Password: "26272a33", Permission: "1-user" },
-  "2A34": { Password: "26272a34", Permission: "1-user" },
-  "2A35": { Password: "26272a35", Permission: "1-user" },
-  "CKK": { Password: "ckk@2a", Permission: "2-Teacher" },
-  "CTK": { Password: "ctk@2a", Permission: "2-Teacher" },
-  "JOR": { Password: "jor@2a", Permission: "2-Teacher" },
-  "LKK": { Password: "lkk@2a", Permission: "2-Teacher" },
-  "LNF": { Password: "lnf@2a", Permission: "2-Teacher" },
-  "LOK": { Password: "lok@2a", Permission: "2-Teacher" },
-  "LYT": { Password: "lyt@2a", Permission: "2-Teacher" },
-  "MKY": { Password: "mky@2a", Permission: "2-Teacher" },
-  "NSH": { Password: "nsh@2a", Permission: "2-Teacher" },
-  "RAY": { Password: "ray@2a", Permission: "2-Teacher" },
-  "SYI": { Password: "syi@2a", Permission: "2-Teacher" },
-  "SYW": { Password: "syw@2a", Permission: "2-Teacher" },
-  "TKH": { Password: "tkh@2a", Permission: "2-Teacher" },
-  "TMY": { Password: "tmy@2a", Permission: "2-Teacher" },
-  "TTC": { Password: "ttc@2a", Permission: "2-Teacher" },
-  "TTH": { Password: "tth@2a", Permission: "2-Teacher" },
-  "WHY": { Password: "why@2a", Permission: "2-Teacher" },
-  "Test01": { Password: "test@2a", Permission: "3-test" },
-  "Test02": { Password: "test@2a", Permission: "3-test" }
+  "2A01": { "Password": "26272a01", "Permission": "1-user" },
+  "2A02": { "Password": "26272a02", "Permission": "1-user" },
+  "2A03": { "Password": "26272a03", "Permission": "1-user" },
+  "2A04": { "Password": "26272a04", "Permission": "1-user" },
+  "2A05": { "Password": "26272a05", "Permission": "99-owner" },
+  "2A06": { "Password": "26272a06", "Permission": "1-user" },
+  "2A07": { "Password": "26272a07", "Permission": "1-user" },
+  "2A08": { "Password": "26272a08", "Permission": "1-user" },
+  "2A09": { "Password": "26272a09", "Permission": "1-user" },
+  "2A10": { "Password": "26272a10", "Permission": "1-user" },
+  "2A11": { "Password": "26272a11", "Permission": "1-user" },
+  "2A12": { "Password": "26272a12", "Permission": "1-user" },
+  "2A13": { "Password": "26272a13", "Permission": "1-user" },
+  "2A14": { "Password": "26272a14", "Permission": "1-user" },
+  "2A15": { "Password": "26272a15", "Permission": "1-user" },
+  "2A16": { "Password": "26272a16", "Permission": "1-user" },
+  "2A17": { "Password": "26272a17", "Permission": "70-Monitress" },
+  "2A18": { "Password": "26272a18", "Permission": "1-user" },
+  "2A19": { "Password": "26272a19", "Permission": "1-user" },
+  "2A20": { "Password": "26272a20", "Permission": "1-user" },
+  "2A21": { "Password": "26272a21", "Permission": "1-user" },
+  "2A22": { "Password": "26272a22", "Permission": "1-user" },
+  "2A23": { "Password": "26272a23", "Permission": "1-user" },
+  "2A24": { "Password": "26272a24", "Permission": "68-Vice ChairPerson of Class Union" },
+  "2A25": { "Password": "26272a25", "Permission": "1-user" },
+  "2A26": { "Password": "26272a26", "Permission": "1-user" },
+  "2A27": { "Password": "26272a27", "Permission": "1-user" },
+  "2A28": { "Password": "26272a28", "Permission": "69-ChairPerson of Class Union" },
+  "2A29": { "Password": "26272a29", "Permission": "1-user" },
+  "2A30": { "Password": "26272a30", "Permission": "1-user" },
+  "2A31": { "Password": "26272a31", "Permission": "1-user" },
+  "2A32": { "Password": "26272a32", "Permission": "1-user" },
+  "2A33": { "Password": "26272a33", "Permission": "1-user" },
+  "2A34": { "Password": "26272a34", "Permission": "1-user" },
+  "2A35": { "Password": "26272a35", "Permission": "1-user" },
+  "CKK": { "Password": "ckk@2a", "Permission": "2-Teacher" },
+  "CTK": { "Password": "ctk@2a", "Permission": "2-Teacher" },
+  "JOR": { "Password": "jor@2a", "Permission": "2-Teacher" },
+  "LKK": { "Password": "lkk@2a", "Permission": "2-Teacher" },
+  "LNF": { "Password": "lnf@2a", "Permission": "2-Teacher" },
+  "LOK": { "Password": "lok@2a", "Permission": "2-Teacher" },
+  "LYT": { "Password": "lyt@2a", "Permission": "2-Teacher" },
+  "MKY": { "Password": "mky@2a", "Permission": "2-Teacher" },
+  "NSH": { "Password": "nsh@2a", "Permission": "2-Teacher" },
+  "RAY": { "Password": "ray@2a", "Permission": "2-Teacher" },
+  "SYI": { "Password": "syi@2a", "Permission": "2-Teacher" },
+  "SYW": { "Password": "syw@2a", "Permission": "2-Teacher" },
+  "TKH": { "Password": "tkh@2a", "Permission": "2-Teacher" },
+  "TMY": { "Password": "tmy@2a", "Permission": "2-Teacher" },
+  "TTC": { "Password": "ttc@2a", "Permission": "2-Teacher" },
+  "TTH": { "Password": "tth@2a", "Permission": "2-Teacher" },
+  "WHY": { "Password": "why@2a", "Permission": "2-Teacher" }
 };
 
 let currentUser = null;
@@ -68,7 +66,7 @@ function getPermissionLevel(permissionStr) {
   return match ? parseInt(match[1], 10) : 0;
 }
 
-// 從 Firebase 雲端獲取帳號資料
+// 從 Firebase 獲取帳號資料
 async function fetchUsers() {
   try {
     let res = await fetch(`${DB_URL}/users.json`);
@@ -111,7 +109,7 @@ async function handleLogin() {
     const isOwner = permLevel === 99;
     document.getElementById('admin-tab-btn').classList.toggle('hidden', !isOwner);
 
-    // 🌟 Rank 50+ (Level >= 50) 均可發佈新問卷
+    // Rank 50+ (Level >= 50) 均可發佈新問卷
     const isRank50Plus = permLevel >= 50;
     document.getElementById('owner-create-survey').classList.toggle('hidden', !isRank50Plus);
 
@@ -124,7 +122,7 @@ async function handleLogin() {
   }
 }
 
-// 🔑 修改個人密碼（即時寫入 Firebase 雲端）
+// 修改個人密碼
 async function changeSelfPassword() {
   const newPwd = document.getElementById('self-new-password').value.trim();
   if (!newPwd) return alert("請輸入新密碼！");
@@ -136,7 +134,7 @@ async function changeSelfPassword() {
     });
     
     currentUser.Password = newPwd;
-    alert("密碼已成功同步至雲端！現在在任何裝置均可用新密碼登入。");
+    alert("密碼已成功同步至雲端！");
     document.getElementById('self-new-password').value = '';
   } catch (e) {
     alert("更新失敗，請重試。");
@@ -153,10 +151,12 @@ function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
   document.getElementById(tabId).classList.remove('hidden');
-  event.target.classList.add('active');
+  if (event && event.target) {
+    event.target.classList.add('active');
+  }
 }
 
-// 📊 問卷調查雲端模組
+// 問卷調查模組
 async function renderSurveys() {
   const container = document.getElementById('survey-list');
   try {
@@ -229,7 +229,7 @@ async function voteSurvey(surveyId, optionIndex) {
   renderSurveys();
 }
 
-// 💌 心意卡雲端模組
+// 心意卡模組
 function populateECardReceivers(users) {
   const select = document.getElementById('ecard-receiver');
   select.innerHTML = '<option value="">選擇接收對象 Select Receiver...</option>';
@@ -272,7 +272,7 @@ async function renderECards() {
   }
 }
 
-// 👑 管理員模組
+// 管理員模組
 function renderAdminTable(users) {
   const tbody = document.getElementById('user-table-body');
   tbody.innerHTML = '';
