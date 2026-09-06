@@ -1,4 +1,4 @@
-// ⚠️ 請將下方網址替換為你在 Firebase 申請到的 Realtime Database 網址
+// ⚠️ Firebase Realtime Database 網址 (已移除結尾斜線以確保連線穩定)
 const DB_URL = "https://a-77436-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
 // 來自 活頁簿1.xlsx 的全班 52 位使用者資料預設集
@@ -59,6 +59,13 @@ const initialUsers = {
 
 let currentUser = null;
 
+// 解析 Permission 字串中的數字等級 (例如 "70-Monitress" -> 70)
+function getPermissionLevel(permissionStr) {
+  if (!permissionStr) return 0;
+  const match = permissionStr.match(/^(\d+)/);
+  return match ? parseInt(match[1], 10) : 0;
+}
+
 // 從 Firebase 雲端獲取帳號資料
 async function fetchUsers() {
   try {
@@ -95,9 +102,16 @@ async function handleLogin() {
     document.getElementById('current-user-display').innerText = currentUser.Username;
     document.getElementById('current-role-display').innerText = currentUser.Permission;
 
-    const isOwner = currentUser.Permission.includes('99-owner');
+    // 計算當前登入者的權限數字等級
+    const permLevel = getPermissionLevel(currentUser.Permission);
+
+    // 只有 99-owner 可看到系統管理員頁籤
+    const isOwner = permLevel === 99;
     document.getElementById('admin-tab-btn').classList.toggle('hidden', !isOwner);
-    document.getElementById('owner-create-survey').classList.toggle('hidden', !isOwner);
+
+    // 🌟 Rank 50+ (Level >= 50) 均可發佈新問卷
+    const isRank50Plus = permLevel >= 50;
+    document.getElementById('owner-create-survey').classList.toggle('hidden', !isRank50Plus);
 
     populateECardReceivers(users);
     renderSurveys();
