@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2A班平台 | Class 2A </title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- 登入區塊 / Login Section -->
+  <div id="login-card" class="card">
+    <h2>🔒 2A 班平台登入 | Class 2A Platform Login</h2>
+    <input type="text" id="login-username" placeholder="用戶名稱 Username (e.g. 2A01 / CKK)">
+    <input type="password" id="login-password" placeholder="密碼 Password">
+    <button onclick="handleLogin()">登入 | Login</button>
+  </div>
+
+  <!-- 主控台區塊 / Main Dashboard -->
+  <div id="main-card" class="card hidden">
+    <div class="header-row">
+      <h2>🏫 2A 班平台 | Class 2A Workspace</h2>
+      <button onclick="handleLogout()" class="btn-danger btn-auto">登出 Logout</button>
+    </div>
+    <p>目前登入 User: <strong id="current-user-display"></strong> | 權限 Role: <span id="current-role-display"></span></p>
+
+    <!-- 頁籤導航 / Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('tab-survey')">📊 問卷調查 Survey</button>
+      <button class="nav-tab" onclick="switchTab('tab-ecard')">💌 電子心意卡 E-Card</button>
+      <button class="nav-tab" onclick="switchTab('tab-settings')">🔑 個人設定 Settings</button>
+      <button id="admin-tab-btn" class="nav-tab hidden" onclick="switchTab('tab-admin')">👑 管理員面板 Admin Panel</button>
+    </div>
+
+    <!-- 頁籤 1: 問卷調查 / Tab 1: Surveys -->
+    <div id="tab-survey" class="tab-content">
+      <h3>📊 班務問卷調查 | Class Surveys</h3>
+      <div id="survey-list"></div>
+
+      <!-- Owner 建立問卷專區 / Create Survey (Owner Only) -->
+      <div id="owner-create-survey" class="owner-box hidden">
+        <h4>➕ 發佈新問卷 | Create New Survey (Owner Only)</h4>
+        <input type="text" id="survey-title" placeholder="問卷題目 Survey Title (e.g. Class T-Shirt Color)">
+        <input type="text" id="survey-options" placeholder="選項 Options (Comma separated, e.g. Red, Blue, Black)">
+        <button onclick="createSurvey()" class="btn-success">發佈問卷 | Publish Survey</button>
+      </div>
+    </div>
+
+    <!-- 頁籤 2: 電子心意卡 / Tab 2: E-Cards -->
+    <div id="tab-ecard" class="tab-content hidden">
+      <h3>💌 電子心意卡 | Electronic Cards</h3>
+      
+      <!-- 撰寫心意卡 / Send Card -->
+      <div class="ecard-box">
+        <h4>✍️ 送出心意卡 | Send an E-Card</h4>
+        <select id="ecard-receiver"><option value="">選擇接收對象 Select Receiver...</option></select>
+        <textarea id="ecard-message" rows="3" placeholder="寫下心意訊息 Write your message..."></textarea>
+        <button onclick="sendECard()" class="btn-pink">傳送心意卡 | Send Card</button>
+      </div>
+
+      <!-- 收到的心意卡 / Inbox -->
+      <h4>📬 我收到的心意卡 | My Received Cards</h4>
+      <div id="my-ecards-list"></div>
+    </div>
+
+    <!-- 頁籤 3: 個人設定 / Tab 3: Settings -->
+    <div id="tab-settings" class="tab-content hidden">
+      <h3>🔑 修改個人密碼 | Change My Password</h3>
+      <div class="form-narrow">
+        <input type="password" id="self-new-password" placeholder="輸入新密碼 Enter new password">
+        <button onclick="changeSelfPassword()">更新密碼 | Update Password</button>
+      </div>
+    </div>
+
+    <!-- 頁籤 4: Owner 管理員面板 / Tab 4: Admin Panel -->
+    <div id="tab-admin" class="tab-content hidden">
+      <h3 class="danger-title">👑 全班帳號與權限管理 | User & Permission Management</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>用戶名 Username</th>
+              <th>權限 Permission</th>
+              <th>操作 Action</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
