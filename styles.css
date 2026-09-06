@@ -1,0 +1,151 @@
+:root {
+  --primary: #2b579a;
+  --bg: #f4f6f9;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+h2, h3, h4 {
+  color: #333;
+  margin-top: 0;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+input, select, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.btn-danger { background: #d9534f; }
+.btn-success { background: #28a745; }
+.btn-pink { background: #e83e8c; }
+.btn-auto { width: auto; padding: 6px 15px; }
+
+.hidden { display: none; }
+
+.nav-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-tab {
+  background: #e9ecef;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: auto;
+  margin: 0;
+}
+
+.nav-tab.active {
+  background: var(--primary);
+  color: white;
+}
+
+.owner-box {
+  margin-top: 25px;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.ecard-box {
+  background: #fff0f3;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.ecard-item {
+  border: 2px dashed #ffb6c1;
+  background: #fff5f6;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.form-narrow { max-width: 400px; }
+.danger-title { color: #d9534f; }
+.table-responsive { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th { background: #f0f3f8; }
+
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 4px;
+  height: 18px;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress-fill {
+  background: #28a745;
+  height: 100%;
+  text-align: right;
+  color: white;
+  font-size: 11px;
+  padding-right: 5px;
+  line-height: 18px;
+}
